@@ -1,28 +1,56 @@
 #!/bin/bash
 
+# ty creat folders and clean
+mkdir -p input_images
+mkdir -p sorted_images
+rm -rf input_images/* sorted_images/*
+
+# copying media files to input_images folder
+cp *.{JPG,PNG,JPEG,GIF,jpg,jpeg,png,gif} input_images 2> /dev/null
+
+# open input_images folder
+cd input_images
+
 # delete spaces in name of files
 for file in *
 do
-    mv "$file" "$(echo $file | sed 's/ /_/g')" 2> /dev/null 
+    mv "$file" "$(echo $file | sed 's/ /_/g')" 2> /dev/null
 done
 
-~/Documents/exiftool/exiftool -fileOrder DateTimeOriginal * | grep "File Name" > temp
+# extract file names with date sort and save it to file_name array
+file_name=$(exiftool -fileOrder DateTimeOriginal * |\
+grep "File Name" | awk '{print $4}')
+file_name=($file_name)
 
-file=$(cat temp)
-rm -rf temp
+# extract image dates with date sort and save it to file_date array
+file_date=$(exiftool -fileOrder DateTimeOriginal * |\
+grep "Date/Time Original" | awk '{print $4"-"$5}')
+file_date=($file_date)
 
-for line in $file
+# debug
+echo "- - - - - - - - - - - - 
+File name and file date
+- - - - - - - - - - - -"
+i=0
+for name in ${file_name[@]}
 do
-    echo "$line" | grep ".JPG\|.PNG\|.jpg\|.jpeg\|.JPEG\|.png\|.gif\|.GIF" >> temp
+    echo -e "$name \t ${file_date[i]}"
+    ((i++))
 done
 
-file=$(cat temp)
-rm -rf temp
-
-i=1
-mkdir new
-for line in $file
+i=0
+j=0 # name extencer
+for name in ${file_name[@]}
 do
-    cp $line new/$i.${line#*.}
+   new_name="../sorted_images/${file_date[i]}.${name#*.}"
+
+    while [ -f $new_name ]
+    do
+        ((j++))
+        new_name="../sorted_images/${file_date[i]}-$j.${name#*.}"
+    done
+    j=0
+
+    cp $name $new_name
     ((i++))
 done
