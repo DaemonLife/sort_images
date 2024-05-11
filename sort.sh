@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo -e "Start sorting"
+
 # try creat folders and clean
 mkdir -p input_images
 mkdir -p sorted_images
@@ -42,8 +44,9 @@ i=0
 j=0 # name extencer
 for name in ${file_name[@]}
 do
-   new_name="../sorted_images/${file_date[i]}.${name#*.}"
+    new_name="../sorted_images/${file_date[i]}.${name#*.}"
 
+    # check if there is name duplicates
     while [ -f $new_name ]
     do
         ((j++))
@@ -54,3 +57,5 @@ do
     cp $name $new_name
     ((i++))
 done
+
+echo -e "\nComplited!"
