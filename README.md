@@ -11,7 +11,7 @@ sudo dnf install perl-Image-ExifTool
 sudo pacman -Syu perl-image-exiftool
 ```
 # Running
-Copy script to folder with your images. Add permisions for running:
+Copy script to folder with your images (make backups!). Add permisions for running:
 ```
 chmod +x sort.sh
 ```
