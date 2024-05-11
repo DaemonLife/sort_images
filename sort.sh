@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ty creat folders and clean
+# try creat folders and clean
 mkdir -p input_images
 mkdir -p sorted_images
 rm -rf input_images/* sorted_images/*
