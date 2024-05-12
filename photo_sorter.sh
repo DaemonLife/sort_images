@@ -94,13 +94,12 @@ raw_meta="$(exiftool -fileOrder DateTimeOriginal * | grep -E "File Name|Date/Tim
 declare -A meta_dict
 # table header
 printf "%-0s %-1s %-25s %39s\n" "N" "|" "File name" "Shoot date"
-
 message "" bottom
 i=0 # lines number
 # check if File name repeats in raw_meta and write NoneDate if so it is
 second_file_name=false
 # IFS= because I don't want separate lines by spaces, it disable IFS
-ls -l
+
 while IFS= read -r line; do
     echo $line
     if [[ $line =~ ^"File Name" ]] && [ "$second_file_name" = true ]; then
