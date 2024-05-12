@@ -13,9 +13,9 @@ sudo pacman -Syu perl-image-exiftool
 # Running
 Copy script to folder with your images (make backups!). Add permisions for running:
 ```
-chmod +x sort.sh
+chmod +x photo_sorter.sh
 ```
 And run:
 ```
-./sort.sh
+./photo_sorter.sh
 ```
